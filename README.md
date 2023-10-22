@@ -28,8 +28,12 @@ Supports:
 ## Usage
 ### 1. Web App
 > We've developed a user friendly interface for our application. Will be deployed onto web server and have an open url very soon!
-<img width="1194" alt="image" src="https://github.com/RiptidePzh/LLM_Chatbot_App/assets/85790664/b0096398-a995-46de-91ae-66a5558b9dc6">
---todo Deploy on Web-Server
+
+<img width="1248" alt="image" src="https://github.com/RiptidePzh/LLM_Chatbot_App/assets/85790664/3ef309ad-db9b-46dc-833e-02e70c4bf26f">
+<img width="1243" alt="image" src="https://github.com/RiptidePzh/LLM_Chatbot_App/assets/85790664/ac882af4-4453-47d3-a0f3-4791b67c149e">
+
+> --[todo] Add full model & function support
+> --[todo] Deploy on Web-Server Url: https://fducommallm.streamlit.app/
 
 
 ### 2. Terminal for Replica Chat
