@@ -27,6 +27,9 @@ Supports:
 
 ## Usage
 ### 1. Web App
+> We've developed a user friendly interface for our application. Will be deployed onto web server and have an open url very soon!
+<img width="1194" alt="image" src="https://github.com/RiptidePzh/LLM_Chatbot_App/assets/85790664/b0096398-a995-46de-91ae-66a5558b9dc6">
+--todo Deploy on Web-Server
 
 
 ### 2. Terminal for Replica Chat
