@@ -1,0 +1,82 @@
+[
+    {
+        "time_interval": [
+            1691420377,
+            1691520676
+        ],
+        "memory": "  The conversation is about a person named Enri who wants to use Rosie's VPN for their Apple device they bought in Venice, Italy. Rosie suggests that if it's an Android phone bought in China, there might be more problems with that. Enri offers to share their online video titled \"August Travel Tips for People Who Want to Go to China Together\" with Rosie in exchange for Rosie's VPN secrets.",
+        "key_word": " Apple device + Venice + Italy"
+    },
+    {
+        "time_interval": [
+            1691628148,
+            1691868105
+        ],
+        "memory": "  Rosie and Enri are discussing traveling in China, specifically the city of Dunhuang. They are exchanging recommendations for VPN providers and server configs to access foreign websites from mainland China. Rosie suggests using Clash X Pro for Mac and Shadowrocket for iPhone, while Enri recommends WgetCloud and SSRDOG. They also discuss the best time to visit Dunhuang, with Rosie suggesting October might be too crowded due to national holidays.",
+        "key_word": " Travel China VPN"
+    },
+    {
+        "time_interval": [
+            1691909838,
+            1692230531
+        ],
+        "memory": "  Enri is planning to travel soon, and Rosie offers to share their VPN servers with them so they don't have to go through payment issues. Enri declines and mentions they will try using a European VPN instead. They also express their intention to call each other when Enri returns home.",
+        "key_word": " Travel plans & VPN sharing"
+    },
+    {
+        "time_interval": [
+            1693291781,
+            1693463149
+        ],
+        "memory": "  Rosie and Enri had a conversation about memes, with Enri sharing a video titled \"#memes #\u9ed1\u4eba #Chrishere #\u82f1\u8bed\u5355\u8bcd #\u641e\u7b11\" and Rosie finding it funny.",
+        "key_word": " Memes"
+    },
+    {
+        "time_interval": [
+            1693463157,
+            1693478916
+        ],
+        "memory": "  Enri is busy with school work and has a presentation on short notice, while Rosie makes fun of them for being \"racist\" and \"arrogant.\"",
+        "key_word": " Busy student faces criticism"
+    },
+    {
+        "time_interval": [
+            1696380887,
+            1696602645
+        ],
+        "memory": "  Rosie and Enri are having a conversation on WeChat. They discuss their experiences with Python for data analysis, regression, and difference in difference. Enri asks about using Python instead of specialized software like Stata, and Rosie replies that she uses R Studio for her stats project because it has a perfect interface. They also talk about going to office hours and looking for friends on a forum called \"Popi\" (which is written in Chinese characters). Enri mentions that he cannot attend office hours due to difficulty, and Rosie jokes that they could rent a fake alibi. The conversation ends with them saying goodbye and expressing their excitement for the weekend.",
+        "key_word": " Python stats discussion"
+    },
+    {
+        "time_interval": [
+            1696606069,
+            1696695079
+        ],
+        "memory": "  Enri and Rosie are discussing going to a club together, but their roommates don't want to go. They mention other friends who never went to a club before and only study, and Enri has class on Sunday. They exchange WeChat IDs and Rosie shares an image of a conference in Paris.",
+        "key_word": " Club plans"
+    },
+    {
+        "time_interval": [
+            1698079714,
+            1698143991
+        ],
+        "memory": "  Enri and Rosie are having a conversation on social media. Enri asks how Rosie is doing, and Rosie replies that she has joined a research group at university. Enri expresses happiness for her and mentions a Chinese professor who is a big name in the field. Rosie then asks about Enri's game, and Enri reveals that they lost and Enri is injured. They discuss different websites to buy cheap flight tickets to Hong Kong, with Rosie recommending \u643a\u7a0b (Ctrip). Enri mentions that they will be attending Fintech Week, and Rosie expresses a desire to visit Hong Kong but has never been there before.",
+        "key_word": " Social media conversation"
+    },
+    {
+        "time_interval": [
+            1698671025,
+            1698671390
+        ],
+        "memory": "  Rosie shared a link to an artist's personal page and expressed interest in getting a tattoo from her. Enri advised against overspending and both agreed that their parents would not approve of the expense.",
+        "key_word": " Tattoos"
+    },
+    {
+        "time_interval": [
+            1699439966,
+            1699441777
+        ],
+        "memory": "  Rosie and Enri are discussing a French guy that Rosie met online. Rosie is not interested in meeting up with him due to his attitude towards her, and Enri agrees with her assessment of French guys being shitty. They make jokes about the situation and reaffirm their friendship despite any negative experiences with French people.",
+        "key_word": " Rosie & Enri discuss French guy"
+    }
+]

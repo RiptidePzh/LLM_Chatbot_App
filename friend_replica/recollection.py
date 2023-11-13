@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Dict, List
 
 from langchain.prompts import PromptTemplate
 
@@ -26,14 +27,15 @@ class LanguageModelwithRecollection():
         self.num_search = num_search
         self.threshold = threshold
                 
-    def generate_thoughts(self, friend_input):
+    def generate_thoughts(self, friend_input, key_word_only=False):
         if self.chat.chat_config.language == "english":
-            template = """[[INST]]<<SYS>>Please summarize the following sentence into less than three words.
-            Reply with words only (less than three): 
+            template = """[[INST]]<<SYS>> Be consise. Reply with the topic summary content only.
             <</SYS>>
-            
+            Summarize the topic of the given sentences into less than three words:
+            '''
             {friend_input}
-
+            '''
+            Topic Summary:
             [[/INST]] """
         
         else:
@@ -62,98 +64,30 @@ class LanguageModelwithRecollection():
         key_word = self.model(prompt_text) if self.chat.chat_config.language == "english" else key_word[len(prompt_text):]
         if self.debug:
             print(key_word)
-
-        thoughts = self.chat.semantic_search(
-            key_word, 
-            friend_name=self.chat.chat_config.friend_name, 
-            debug=False, 
-            num_context=self.num_context, 
-            k=self.num_search,
-            threshold=self.threshold
-        )
-        
-        return thoughts, key_word
-    
-    def summarize_recollection(
-        self, 
-        friend_input,
-    ):
-        '''
-        Summarize recollected memories from thoughts.
-        '''
-        thoughts, key_word = self.generate_thoughts(friend_input)
-        recollections = ['\n'.join(format_chat_history(thought, self.chat.chat_config, for_read=True, time=True)) for thought in thoughts]
-        
-        if self.debug:
-            print(recollections)
-            print(len(recollections))
-        
-        if self.chat.chat_config.language == "english":
-            template = """[[INST]]<<SYS>>Please tell me when the following conversation took place, and
-            summarize its main idea into only one sentence with regard to {key_words}: 
-            <</SYS>>
-            
-            {recollections}
-
-            One-sentence summary:
-            [[/INST]] """
-
+        if not key_word_only:
+            thoughts = self.chat.semantic_search(
+                key_word, 
+                friend_name=self.chat.chat_config.friend_name, 
+                debug=False, 
+                num_context=self.num_context, 
+                k=self.num_search,
+                threshold=self.threshold
+            )
+            return thoughts, key_word
         else:
-            template = """请告诉我下列对话的发生时间，并用一句话简短地概括它的整体内容，其中关键词为 {key_words}：
-            
-            [Round 1]
-            对话：
-            2023-08-16T11:33:44 from friend: 中午去哪吃？
-            2023-08-16T11:35:14 from me: 西域美食吃吗
-            2023-08-16T11:33:44 from friend: 西域美食
-            2023-08-16T11:33:44 from friend: 好油啊
-            2023-08-16T11:33:44 from friend: 想吃点好的
-            2023-08-16T11:35:14 from me: 那要不去万达那边？
-            2023-08-16T11:33:44 from friend: 行的行的
-            
-            总结：
-            以上对话发生在2023年8月16日中午，我和我的朋友在商量中饭去哪里吃，经过商量后决定去万达。
-            
-            [Round 2]
-            对话：
-            {recollections}
-            
-            总结："""
-        
-        prompt = PromptTemplate(
-            template=template, 
-            input_variables=[
-                'key_words',
-                'recollections',
-            ],
-        )
-        
-        out = []
-        for recollection in recollections:
-            prompt_text = prompt.format(key_words=key_word, 
-                                        recollections=recollection,
-                                        )
-            if self.chat.chat_config.language == "english":
-                out0 = self.model(prompt_text).strip()
-            else:
-                out0 = self.model(prompt_text)[len(prompt_text):].strip()
-            if self.debug:
-                print(out0)
-            out.append(out0)
-            
-        return out
+            return key_word
     
-    def generalize_personality(
-        self, 
-        chat_block,
-    ):
+    def generalize_personality(self, chat_block:List[Dict]):
         '''
         Generate personality for the chat and store the personality in json file for future usage.
+        Input: One chat_block, a list of concatenated chat messages (List[Dict])
+        Output: LLM summary of peronality (str), 
+                stored in personality_{friend_name}.json under chat_history directory
         '''
         if self.chat.chat_config.language == "english":
-            prompt_template = """[[INST]]<<SYS>>Be as concise and in-depth as possible. Follow the instructions and give response in one to two sentences.
+            prompt_template = """[[INST]]<<SYS>>Be as concise and in-depth as possible. Reply in one to two sentences with the summary content only.
             <</SYS>>
-            Summarize in one to two sentences the personality of {my_name} and the relationship between {friend_name} and {my_name}, from the chat history given.
+            Summarize in one to two sentences the personality of {my_name} and the relationship between {friend_name} and {my_name}, from the chat history given below:
             '''
             {chat_history}
             '''
@@ -210,17 +144,21 @@ class LanguageModelwithRecollection():
 
         return out
 
-    def summarize_memory(
-            self,
-            chat_block,
-    ):
+    def summarize_memory(self, chat_block:List[Dict]):
+        '''
+        Summarize block of chat history.
+        Input: One chat_block, a list of concatenated chat messages (List[Dict])
+        Output: LLM summary of the chat_block memory (str)
+        '''
         if self.chat.chat_config.language == "english":
-            template = """[[INST]]<<SYS>>Be concise. Give response in one to two sentences.
+            template = """[[INST]]<<SYS>>Be concise. Reply with the summary content only.
             <</SYS>>
-            Please summarize the main content of the following conversation.
+            Summarize the main idea of the following conversation.
+            '''
             {chat_block}
-            Short summary in one to two sentences:
-            [[/INST]] """
+            '''
+            Summary:
+            [[/INST]]"""
             
         else:
             template = """请用一句话简短地概括下列聊天记录的整体思想.
@@ -246,29 +184,34 @@ class LanguageModelwithRecollection():
         
         prompt = PromptTemplate(
             template=template, 
-            input_variables=[
-                "chat_block",
-            ],
+            input_variables=["chat_block"],
         )
 
         prompt_text = prompt.format(chat_block='\n'.join(format_chat_history(chat_block, chat_config=self.chat.chat_config, for_read=True)))
 
         return self.model(prompt_text) if self.chat.chat_config.language == "english" else self.model(prompt_text)[len(prompt_text):]
 
-    def memory_archive(self):
+    def memory_archive(self, chat_blocks: List[List]=None):
         '''
         Generate memory archive for the chat.
+        Input: chat_blocks, a list containing split chat_blocks
+        Output: memory_archive (List[Dict])
+                with keys "time_interval", "memory", "key_word" in each entry
+                also stored in memory_{friend_name}.json file under chat_history directory
         '''
-        chat_blocks = split_chat_data(self.chat.chat_data)
+        if not chat_blocks:
+            chat_blocks = split_chat_data(self.chat.chat_data)
         memory_archive = []
         for block in chat_blocks:
             memory = self.summarize_memory(block)
-            topics = self.generate_thoughts(memory)
+            key_word = self.generate_thoughts(memory, key_word_only=True)
+            if "Sure" in key_word or "\n" in key_word:
+                key_word = key_word.split('\n')[-1]
             time_interval = (block[0]['msgCreateTime'], block[-1]['msgCreateTime'])
             memory_entry = {
-                time_interval: time_interval,
-                memory: memory,
-                topics: topics,
+                "time_interval": time_interval,
+                "memory": memory,
+                "key_word": key_word,
             }
             memory_archive.append(memory_entry)
 
@@ -278,7 +221,8 @@ class LanguageModelwithRecollection():
         with open(output_js, 'w', encoding='utf-8') as json_file:
             json_file.write(json_data)
         
-        return 
+        print(f"Memory Archive of friend '{self.chat.chat_config.friend_name}' Initialized.")
+        return memory_archive
 
     def chat_with_recollection(
         self, 

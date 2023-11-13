@@ -27,6 +27,7 @@ def split_chat_data(
         ) -> List:
     '''
     Split chat history into blocks of messages based on time intervals.
+    In each chat block, neighboring messages from the same user are concatenated into one message.
     '''
     blocks = []
     current_block = []
