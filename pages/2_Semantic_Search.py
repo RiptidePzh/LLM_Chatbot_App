@@ -59,18 +59,16 @@ else:
                 st.warning(e)
             try:
                 for context in contexts:
-                    format_context = format_chat_history(context, st.session_state.chat_with_friend.chat_config,
-                                                         for_read=True,
-                                                         time=True)
+                    format_context = format_chat_history(context, 
+                                                         st.session_state.chat_with_friend.chat_config,
+                                                         time=True,
+                                                         )
                     # st.write(format_context)
                     for each in format_context:
-                        content = each.split(':')[-1]
-                        role = each.split(', ')[-1].split(':')[0]
-                        time = each.split(', ')[0]
                         # st.session_state.messages.append({"role": role, "content": time+':'+content})
-                        with st.chat_message(role):
-                            st.caption(time)
-                            st.markdown(content)
+                        with st.chat_message(each['role']):
+                            st.caption(each['time'])
+                            st.markdown(each['content'])
             except Exception as e:
                 st.warning('Not Found')
 

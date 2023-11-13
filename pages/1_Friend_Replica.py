@@ -160,7 +160,7 @@ if new_msg := st.chat_input("What is up?"):
         prompt_text = prompt.format(
             my_name=chat_config.my_name,
             friend_name=chat_config.friend_name,
-            recent_chat='\n'.join([element['role']+': '+element['content'] for element in format_chat_history(chat_blocks[-1], chat_config)]),
+            recent_chat='\n'.join(format_chat_history(chat_blocks[-1], chat_config, for_read=True)),
             recollections=recollections,
             current_chat='\n'.join(current_chat)
         )

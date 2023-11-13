@@ -85,61 +85,28 @@ def format_chat_msg(
     ''' 
     role = chat_config.my_name if msg['mesDes'] == 0 else chat_config.friend_name
     content = msg['msgContent']
+    str_time = datetime.fromtimestamp(msg['msgCreateTime']).strftime('%Y-%m-%dT%H:%M')
     if for_read:
         if time: 
-            str_time = datetime.fromtimestamp(msg['msgCreateTime']).strftime('%Y-%m-%dT%H:%M')
             formatted_msg = f'{str_time}, {role}: {content}'
         else:
             formatted_msg = f'{role}: {content}'
     else:
-        formatted_msg ={
-            "role": role,
-            "content": content,
-            } 
+        if time:
+            formatted_msg = {
+                "time": str_time,
+                "role": role,
+                "content": content,
+                } 
+        else:
+            formatted_msg ={
+                "role": role,
+                "content": content,
+                } 
     return formatted_msg
 
 
 def format_chat_history(
-        chat_data: List[Dict],
-        chat_config: ChatConfig,
-        for_read: bool=False,
-        time: bool=False,
-        ) -> List[Dict]:
-    '''
-    Format chat history for prompt or printout.
-    '''
-    chat_history = [format_chat_msg(msg, chat_config, for_read, time) for msg in chat_data]
-    return chat_history
-
-def st_format_chat_msg(
-        msg: Dict,
-        chat_config: ChatConfig,
-        for_read: bool,
-        time: bool
-        ) -> Dict:
-    '''
-    Format each chat msg for prompt.
-    1. Put my_name and friend_name from chat_config into chat history.
-    2. If not for_read, format msg according to community template, for few-shot learning chat generation tasks.
-       If for_read, format msg into readable text, for summarization tasks.
-    3. Under for_read, if time is True, include timestamp in the formatted msg.
-    '''
-    role = chat_config.my_name if msg['mesDes'] == 0 else chat_config.friend_name
-    content = msg['msgContent']
-    if for_read:
-        if time:
-            str_time = datetime.fromtimestamp(msg['msgCreateTime']).strftime('%Y-%m-%dT%H:%M')
-            formatted_msg = {"role":role, "time":str_time, "content": content}
-        else:
-            formatted_msg = {"role":role, "content": content}
-    else:
-        formatted_msg = {
-            "role": role,
-            "content": content,
-            }
-    return formatted_msg
-
-def st_format_chat_history(
         chat_data: List[Dict],
         chat_config: ChatConfig,
         for_read: bool=False,
