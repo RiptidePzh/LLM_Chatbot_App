@@ -4,7 +4,7 @@ import os
 from typing import Dict, List
 
 import torch
-from friend_replica.format_chat import ChatConfig
+from friend_replica.format_chat import ChatConfig, split_chat_data
 from sentence_transformers import SentenceTransformer
 
 
@@ -60,6 +60,7 @@ class Chat():
         if self.chat_config:
             self.friend_path = os.path.join(chat_history_path, f'chat_{chat_config.friend_name}')
             self.chat_data = json.load(open(os.path.join(self.friend_path, f'chat_{chat_config.friend_name}.json'), 'r'))
+            self.chat_blocks = split_chat_data(self.chat_data)
             self.vectorize_one_friend()
 
     def vectorize_one_friend(self):

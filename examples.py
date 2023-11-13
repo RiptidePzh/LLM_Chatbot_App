@@ -1,8 +1,8 @@
 # %%
 from langchain.llms import GPT4All
-from models.model_cn import ChatGLM
+#from models.model_cn import ChatGLM
 
-from friend_replica.format_chat import ChatConfig, split_chat_data, format_chat_history
+from friend_replica.format_chat import ChatConfig, format_chat_history
 from friend_replica.recollection import LanguageModelwithRecollection
 from friend_replica.semantic_search import *
 
@@ -12,12 +12,19 @@ from friend_replica.semantic_search import *
 # Initialize Chat with one friend
 chat_config = ChatConfig(
     my_name="Rosie",
-    friend_name="王",
-    language="chinese",
+    friend_name="Enri",
+    language="english",
 )
-chat_with_friend = Chat(device='cuda', chat_config=chat_config)
-chat_blocks = split_chat_data(chat_with_friend.chat_data)
+chat_with_friend = Chat(device='mps', chat_config=chat_config)
+chat_blocks = chat_with_friend.chat_blocks
 print([len(c) for c in chat_blocks])
+
+'''
+Example Output (English):
+
+chat_Enri vectorized
+[4, 11, 4, 3, 5, 27, 12, 14, 5, 17]
+'''
 
 
 # %%
@@ -54,20 +61,52 @@ Searching for: ['sad']
 
 '''
 
+
 # %%
 # Load Memory Recollection Model
 model = GPT4All(model="llama-2-7b-chat.ggmlv3.q4_0.bin", allow_download=False)
 # model = ChatGLM()
-m = LanguageModelwithRecollection(model, chat_with_friend, debug=True)
+m = LanguageModelwithRecollection(model, chat_with_friend)
 
 # %%
 # Memory Archive Generation
-# m.memory_archive(chat_blocks)
+memory_archive  = m.memory_archive()
 
-# For one Chat Block
-print('\n'.join(format_chat_history(chat_blocks[1], chat_with_friend.chat_config, for_read=True, time=True)))
+'''
+Example Output (English):
+####### Memory entry from 2023-08-07 22:59 to 2023-08-09 02:51: 
+Memory:   The conversation is about a person named Enri who wants to use Rosie's VPN for their Apple device they bought in Venice, Italy. Rosie suggests that if it's an Android phone bought in China, there might be more problems with that. Enri offers to share their online video titled "August Travel Tips for People Who Want to Go to China Together" with Rosie in exchange for Rosie's VPN secrets.
+Key Word:  Apple device + Venice + Italy
+######## 
+####### Memory entry from 2023-08-29 14:49 to 2023-08-31 14:25: 
+Memory:   Rosie and Enri had a conversation about memes, with Enri sharing a video titled "#memes #黑人 #Chrishere #英语单词 #搞笑" and Rosie finding it funny.
+Key Word:  Memes
+######## 
+####### Memory entry from 2023-08-31 14:25 to 2023-08-31 18:48: 
+Memory:   Enri is busy with school work and has a presentation on short notice, while Rosie makes fun of them for being "racist" and "arrogant."
+Key Word:  Busy student faces criticism
+######## 
+####### Memory entry from 2023-10-04 08:54 to 2023-10-06 22:30: 
+Memory:   Rosie and Enri are having a conversation on WeChat. They discuss their experiences with Python for data analysis, regression, and difference in difference. Enri asks about using Python instead of specialized software like Stata, and Rosie replies that she uses R Studio for her stats project because it has a perfect interface. They also talk about going to office hours and looking for friends on a forum called "Popi" (which is written in Chinese characters). Enri mentions that he cannot attend office hours due to difficulty, and Rosie jokes that they could rent a fake alibi. The conversation ends with them saying goodbye and expressing their excitement for the weekend.
+Key Word: "Python stats discussion"
+######## 
+####### Memory entry from 2023-10-06 23:27 to 2023-10-08 00:11: 
+...
+Memory:   Rosie and Enri are discussing a French guy that Rosie met online. Rosie is not interested in meeting up with him due to his attitude towards her, and Enri agrees with her assessment of French guys being shitty. They make jokes about the situation and reaffirm their friendship despite any negative experiences with French people.
+Key Word:  Rosie & Enri discuss French guy
+######## 
+######## Finished Memory Archive Initialization of friend 'Enri'
+'''
+
+
+# %%
+# Memory summary for one chat block
+print('\n'.join(format_chat_history(chat_blocks[4], chat_with_friend.chat_config, for_read=True, time=True)))
 print()
-print(m.summarize_memory(chat_blocks[1]))
+summary = m.summarize_memory(chat_blocks[4])
+print(summary)
+topic = m.generate_thoughts(summary, key_word_only=True)
+print(topic)
 
 '''
 Example Output (English):
@@ -85,19 +124,61 @@ Rosie and Eddie are discussing travel destinations, with Eddie expressing intere
 They also share images and videos of their respective locations, with Eddie looking forward to traveling in China and Rosie mentioning that she can't wait to see Eddie's adventures.
 '''
 
-# %%
-# Personality and Relationship Analysis from chat history
-print(m.generalize_personality(chat_blocks[1]))
 
+# %%
+# Personality Archive Generation
+personality_archive = m.personality_archive()
+
+'''
+Example Output (English):
+######## Personality entry from 2023-08-07 22:59 to 2023-08-09 02:51:
+ Rosie is a tech-savvy and mischievous person who enjoys sharing tips and tricks, while Enri is a lighthearted and playful individual who is willing to share their travel recommendations.
+######## Personality entry from 2023-08-10 08:42 to 2023-08-13 03:21:
+ Rosie is a travel-enthusiast who has been to various places in China, including Dunhuang. She provides recommendations and tips for Enri, who is planning to visit China soon. Rosie is bubbly and enthusiastic about traveling, often using emojis and GIFs in her responses. Enri seems to be excited about the trip but also aware of the crowds during the National Day holiday in October.
+...
+######## Personality entry from 2023-10-30 21:03 to 2023-10-30 21:09:
+ Rosie is a fan of the tattoo artist and wants to get a tattoo from her in Chengdu, but Enri is advising her not to overspend. The two have a playful and lighthearted relationship, with Enri using humor to try to calm Rosie's excitement about getting a tattoo.
+######## Personality entry from 2023-11-08 18:39 to 2023-11-08 19:09:
+ Rosie has a negative view of French guys and had a bad experience with one person in particular, who deleted her after she declined his invitation to dinner. She is frustrated that he only has Wednesdays off and won't compromise on their planned meeting time. Enri shares her frustration and reassures her that they are friends and will support her.
+######## Finished Personality Archive Initialization of friend 'Enri'
+'''
+
+# %%
+# Personality and Relationship Summary with one chat block
+print('\n'.join(format_chat_history(chat_blocks[4], chat_with_friend.chat_config, for_read=True, time=True)))
+print()
+personality = m.generalize_personality(chat_blocks[4])
+print(summary)
 '''
 Example Output (English):
 Rosie is a fun-loving and adventurous person who enjoys traveling and exploring new places. 
 Eddie and Rosie have a friendly and casual relationship, with Eddie seeking advice from Rosie on their shared interest in traveling in China.
 '''
 
+
 # %%
 # Chatbot Friend Replica
-print(m(friend_input="what do you think"))
+print(m.chat_with_archive())
+
+'''
+Example Ouput (English):
+Hi, Enri! I'm the agent bot of Rosie. I have memory of us discussing these topics:
+#0 08.09:  Apple device + Venice + Italy
+#1 08.13:  Travel China VPN
+#2 08.17:  Travel plans & VPN sharing
+#3 08.31:  Memes
+#4 08.31:  Busy student faces criticism
+#5 10.06:  Python stats discussion
+#6 10.08:  Club plans
+#7 10.24:  Social media conversation
+#8 10.30:  Tattoos
+#9 11.08:  Rosie & Enri discuss French guy
+Do you want to continue on any of these?
+Okay! Let's continue on [ Memes]
+I recall last time:   Rosie and Enri had a conversation about memes, with Enri sharing a video titled "#memes #黑人 #Chrishere #英语单词 #搞笑" and Rosie finding it funny.
+Enri: Got any funny meme for me this time?
+Rosie: *chuckles* Oh, you know it! I've got a whole arsenal of meme magic up my sleeve. :woman-tipping-hand: But let me ask you this – have you seen the latest #Chrishere meme? :rolling_on_the_floor_laughing: It's a doozy! *winks* Want to see it? :tada:
+'''
 
 
 # %%
