@@ -1,12 +1,11 @@
 import json
 import os
-from typing import Dict, List
-
-from langchain.prompts import PromptTemplate
 from datetime import datetime
+from typing import Dict, List
 
 from friend_replica.format_chat import format_chat_history, split_chat_data
 from friend_replica.semantic_search import Chat
+from langchain.prompts import PromptTemplate
 
 
 class LanguageModelwithRecollection():
@@ -371,7 +370,7 @@ class LanguageModelwithRecollection():
             personality = self.generalize_personality(chat_blocks[-1])
 
         recollections, key_words = self.generate_thoughts(friend_input)
-        recollections = '\n'.join(recollections)
+        recollections = '\n\n'.join(['\n'.join(format_chat_history(recollection, self.chat.chat_config, for_read=True)) for recollection in recollections])
         
         if self.debug:
             print(recollections)
@@ -399,14 +398,9 @@ class LanguageModelwithRecollection():
             
         else:
             prompt_template = """接下来请你扮演一个在一场随性的网络聊天中拥有{my_name}性格特征的角色。
-            首先从过往聊天记录中，学习总结{my_name}的性格特点，并掌握{my_name}和{friend_name}之间的人际关系。
+            首先从过往聊天记录中，根据{my_name}的性格特点{personatlity}，并掌握{my_name}和{friend_name}之间的人际关系。
             之后，运用近期聊天内容以及记忆中的信息，回复{friend_name}发送的消息。
             请用简短、随意的方式用{my_name}的身份进行回复：
-            
-            过往聊天：
-            '''
-            {chat_history}
-            '''
             
             记忆：
             '''
@@ -429,19 +423,22 @@ class LanguageModelwithRecollection():
             input_variables=[
                 'my_name', 
                 'friend_name', 
-                'chat_history', 
                 'recent_chat', 
                 'recollections',
                 'friend_input',
-                'current_chat'
+                'current_chat',
+                'personality'
             ],
         )
         
+        if self.debug:
+            print(chat_blocks[-1])
+                
         prompt_text = prompt.format(
             my_name=self.chat.chat_config.my_name,
             friend_name=self.chat.chat_config.friend_name,
             personality=personality,
-            recent_chat='\n'.join(format_chat_history(chat_blocks[-1], self.chat.chat_config)),
+            recent_chat='\n'.join(format_chat_history(chat_blocks[-1], self.chat.chat_config, for_read=True)),
             recollections=recollections,
             friend_input=friend_input,
             current_chat=current_chat

@@ -2,13 +2,14 @@ from typing import Any
 
 import torch
 from bigdl.llm.transformers import AutoModel
+from model_paths import path_cn
 from transformers import AutoTokenizer
 
 
 class ChatGLM():
     def __init__(self) -> None:
-        self.tokenizer = AutoTokenizer.from_pretrained("chatglm2-6b-int4", trust_remote_code=True)
-        self.model = AutoModel.from_pretrained("chatglm2-6b-int4", trust_remote_code=True)
+        self.tokenizer = AutoTokenizer.from_pretrained(path_cn, trust_remote_code=True)
+        self.model = AutoModel.from_pretrained(path_cn, trust_remote_code=True)
         self.model = self.model.eval()
     
     def __call__(self, prompt: str):

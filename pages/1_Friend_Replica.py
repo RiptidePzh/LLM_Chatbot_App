@@ -34,16 +34,18 @@ st.caption("🚀 Chat with your friend! "
 if "messages" not in st.session_state:
     st.session_state.messages = []
     
+if "current_chat" not in st.session_state:
+    st.session_state.current_chat = []
+    
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-current_chat = []
 if new_msg := st.chat_input("What is up?"):
     with st.chat_message("user"):
         st.markdown(new_msg)
     st.session_state.messages.append({"role": "user", "content": new_msg})
-    current_chat.append(chat_config.friend_name + ': ' + new_msg)
+    st.session_state.current_chat_replica.append(chat_config.friend_name + ': ' + new_msg)
     
     with st.chat_message("assistant"):
         thoughts, key_words = m.generate_thoughts(new_msg)
@@ -162,7 +164,7 @@ if new_msg := st.chat_input("What is up?"):
             friend_name=chat_config.friend_name,
             recent_chat='\n'.join(format_chat_history(chat_blocks[-1], chat_config, for_read=True)),
             recollections=recollections,
-            current_chat='\n'.join(current_chat)
+            current_chat='\n'.join(st.session_state.current_chat)
         )
         
         if chat_config.language == "english":
@@ -171,5 +173,5 @@ if new_msg := st.chat_input("What is up?"):
             response = model(prompt_text, stop='\n')[len(prompt_text):]
             
         st.markdown(response)
-        current_chat.append(response)
+        st.session_state.current_chat_replica.append(response)
         st.session_state.messages.append({"role": "assistant", "content": response})

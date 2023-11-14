@@ -5,6 +5,7 @@ from typing import Dict, List
 
 import torch
 from friend_replica.format_chat import ChatConfig, split_chat_data
+from model_paths import path_semantic_search
 from sentence_transformers import SentenceTransformer
 
 
@@ -50,7 +51,7 @@ class Chat():
         '''
         self.root = chat_history_path
         self.model = SentenceTransformer(
-            'stsb-xlm-r-multilingual',
+            path_semantic_search,
             cache_folder=embedding_model_path,
             device=device,
         )
