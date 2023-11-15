@@ -37,7 +37,7 @@ Or, simply pass the names of models:
 ```
 path_semantic_search = "stsb-xlm-r-multilingual"
 path_cn = "chatglm2-6b-int4"
-path_en = "/home/enoshima/workspace/intel/models/llama-2-7b-chat.ggmlv3.q4_0.bin"
+path_en = "llama-2-7b-chat.ggmlv3.q4_0.bin"
 ``` 
 
 ### 1. Web App
