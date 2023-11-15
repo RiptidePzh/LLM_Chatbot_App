@@ -26,6 +26,20 @@ Supports:
 
 
 ## Usage
+### 0. Model Loading
+To load pretrained model weights locally, modify variables in `model_paths.py` to your model paths:
+```
+path_semantic_search = "path_to_your_embedding_model_weights"
+path_cn = "path_to_your_chinese_language_model_weights"
+path_en = "path_to_your_english_language_model_weights"
+``` 
+Or, simply pass the names of models:
+```
+path_semantic_search = "stsb-xlm-r-multilingual"
+path_cn = "chatglm2-6b-int4"
+path_en = "/home/enoshima/workspace/intel/models/llama-2-7b-chat.ggmlv3.q4_0.bin"
+``` 
+
 ### 1. Web App
 > We've developed a user friendly interface for our application. We are working on deploying a test demo onto an open url!
 
