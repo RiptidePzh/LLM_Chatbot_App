@@ -378,7 +378,7 @@ class LanguageModelwithRecollection():
         if self.chat.chat_config.language == "english":
             prompt_template = """[[INST]]<<SYS>>You are roleplaying a robot with the personality of {my_name} in a casual online chat with {friend_name}.
             as described here: {personality}.
-            Refer to Memory as well as Recent Conversation , respond to the latest message of {friend_name}.
+            Refer to Memory as well as Recent Conversation , respond to the latest message of {friend_name} with one sentence only.
             Start the short, casual response with {my_name}: 
             <</SYS>>
             
@@ -400,7 +400,7 @@ class LanguageModelwithRecollection():
             prompt_template = """接下来请你扮演一个在一场随性的网络聊天中拥有{my_name}性格特征的角色。
             首先从过往聊天记录中，根据{my_name}的性格特点{personatlity}，并掌握{my_name}和{friend_name}之间的人际关系。
             之后，运用近期聊天内容以及记忆中的信息，回复{friend_name}发送的消息。
-            请用简短、随意的方式用{my_name}的身份进行回复：
+            请用一句话，通过简短、随意的方式用{my_name}的身份进行回复：
             
             记忆：
             '''
