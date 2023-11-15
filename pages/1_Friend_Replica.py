@@ -49,8 +49,12 @@ if new_msg := st.chat_input("What is up?"):
     
     with st.chat_message("assistant"):
         thoughts, key_words = m.generate_thoughts(new_msg)
-        recollections = ['\n'.join(format_chat_history(thought, chat_config, for_read=True, time=True)) for thought in thoughts]
-    
+        
+        if isinstance(thoughts[0], list):
+            recollections = ['\n'.join(format_chat_history(thought, chat_config, for_read=True, time=True)) for thought in thoughts]
+        else:
+            recollections = ''
+        
         st.markdown(f'概括关键词：{key_words}' if st.session_state.language == 'chinese' else f'Summarizing message as:{key_words}')
             
         if chat_config.language == "english":
@@ -164,7 +168,7 @@ if new_msg := st.chat_input("What is up?"):
             friend_name=chat_config.friend_name,
             recent_chat='\n'.join(format_chat_history(chat_blocks[-1], chat_config, for_read=True)),
             recollections=recollections,
-            current_chat='\n'.join(st.session_state.current_chat)
+            current_chat='\n'.join(st.session_state.current_chat_replica)
         )
         
         if chat_config.language == "english":
