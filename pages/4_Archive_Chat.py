@@ -148,7 +148,7 @@ if input_index := st.chat_input("Enter the # of the topic if you want to continu
         )
             
         if m.chat.chat_config.language == "english":
-            out = m.model(prompt_text, stop='\n')
+            out = m.model(prompt_text, stop='\n').replace('\"', '').replace('�', '')
         else:
             out = m.model(prompt_text)[len(prompt_text):].split('\n')[0]
         

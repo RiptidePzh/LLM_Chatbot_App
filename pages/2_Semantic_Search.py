@@ -61,6 +61,8 @@ else:
             
             if isinstance(msgs, list):
                 for i in range(len(msgs)):
+                    if 'content' in msgs[i][0].keys():
+                        continue
                     if len(msgs[i]) > 0:
                         msgs[i] = format_chat_history(msgs[i], st.session_state.chat_with_friend.chat_config, time=True)
                     else:
