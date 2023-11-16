@@ -9,8 +9,8 @@ from transformers import LlamaTokenizer
 
 class Llama():
     def __init__(self) -> None:
-        self.tokenizer = LlamaTokenizer.from_pretrained("/home/enoshima/workspace/intel/models/Llama-2-7b-chat-hf", trust_remote_code=True)
-        self.model = AutoModelForCausalLM.from_pretrained("/home/enoshima/workspace/intel/models/Llama-2-7b-chat-hf", load_in_4bit=True, trust_remote_code=True)
+        self.tokenizer = LlamaTokenizer.from_pretrained("Llama-2-7b-chat-hf", trust_remote_code=True)
+        self.model = AutoModelForCausalLM.from_pretrained("Llama-2-7b-chat-hf", load_in_4bit=True, trust_remote_code=True)
         self.model = self.model.eval()
     
     def __call__(self, prompt: str):
