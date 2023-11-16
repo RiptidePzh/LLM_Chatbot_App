@@ -61,7 +61,7 @@ class LanguageModelwithRecollection():
         )
         
         prompt_text = prompt.format(friend_input=friend_input)
-        key_word = self.model(prompt_text) if self.chat.chat_config.language == "english" else key_word[len(prompt_text):]
+        key_word = self.model(prompt_text) if self.chat.chat_config.language == "english" else self.model(prompt_text)[len(prompt_text):]
         if self.debug:
             print(key_word)
         if not key_word_only:

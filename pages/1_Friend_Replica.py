@@ -56,7 +56,8 @@ if new_msg := st.chat_input("What is up?"):
             recollections = ''
         
         st.markdown(f'概括关键词：{key_words}' if st.session_state.language == 'chinese' else f'Summarizing message as:{key_words}')
-            
+        st.session_state.messages.append({"role": "assistant", "content": f'概括关键词：{key_words}' if st.session_state.language == 'chinese' else f'Summarizing message as:{key_words}'})
+        
         if chat_config.language == "english":
             template = """[[INST]]<<SYS>>Please tell me when the following conversation took place, and
             summarize its main idea into only one sentence with regard to {key_words}: 
@@ -105,11 +106,16 @@ if new_msg := st.chat_input("What is up?"):
             if chat_config.language == "english":
                 out0 = model(prompt_text).strip()
                 st.markdown(f'Recollected following conversation: \n{recollection}')
+                st.session_state.messages.append({"role": "assistant", "content": f'Recollected following conversation: \n{recollection}'})
                 st.markdown(f'Summary: \n{out0}')
+                st.session_state.messages.append({"role": "assistant", "content": f'Summary: \n{out0}'})
+
             else:
                 out0 = model(prompt_text)[len(prompt_text):].strip()
                 st.markdown(f'回忆以下对话：\n{recollection}')
+                st.session_state.messages.append({"role": "assistant", "content": f'回忆以下对话：\n{recollection}'})
                 st.markdown(f'概括：\n{out0}')
+                st.session_state.messages.append({"role": "assistant", "content": f'概括：\n{out0}'})
             out.append(out0)
         
         if chat_config.language == "english":
@@ -174,7 +180,7 @@ if new_msg := st.chat_input("What is up?"):
         if chat_config.language == "english":
             response = model(prompt_text, stop='\n')
         else:
-            response = model(prompt_text, stop='\n')[len(prompt_text):]
+            response = model(prompt_text)[len(prompt_text):].split('\n')[0]
             
         st.markdown(response)
         st.session_state.current_chat_replica.append(response)

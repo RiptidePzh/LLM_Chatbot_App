@@ -6,10 +6,7 @@ from friend_replica.recollection import LanguageModelwithRecollection
 from friend_replica.semantic_search import *
 from langchain.llms import GPT4All
 from model_paths import path_en
-
-# from models.model_cn import ChatGLM
-
-
+from models.model_cn import ChatGLM
 
 ### Side Bar Module ###
 with st.sidebar:
@@ -27,8 +24,10 @@ st.subheader('Chat History')
 
 
 # Load Memory Recollection Model
-model = GPT4All(model=path_en, allow_download=True)
-# model = ChatGLM()
+if st.session_state.language == 'chinese':
+    model = ChatGLM()
+else: 
+    model = GPT4All(model=path_en)
 m = LanguageModelwithRecollection(model, st.session_state.chat_with_friend, debug=True)
 
 # %%
