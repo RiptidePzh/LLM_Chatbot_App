@@ -5,6 +5,7 @@ from friend_replica.format_chat import ChatConfig, format_chat_history, split_ch
 from friend_replica.recollection import LanguageModelwithRecollection
 from friend_replica.semantic_search import *
 from langchain.llms import GPT4All
+from model_paths import path_en
 
 # from models.model_cn import ChatGLM
 
@@ -26,7 +27,7 @@ st.subheader('Chat History')
 
 
 # Load Memory Recollection Model
-model = GPT4All(model="llama-2-7b-chat.ggmlv3.q4_0.bin", allow_download=True)
+model = GPT4All(model=path_en, allow_download=True)
 # model = ChatGLM()
 m = LanguageModelwithRecollection(model, st.session_state.chat_with_friend, debug=True)
 
