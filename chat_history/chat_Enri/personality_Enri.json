@@ -1,9 +1,72 @@
 [
     {
         "time_interval": [
+            1691420377,
+            1691520676
+        ],
+        "personality": " Rosie is a tech-savvy and mischievous person who enjoys sharing tips and tricks, while Enri is a lighthearted and playful individual who is willing to share their travel recommendations."
+    },
+    {
+        "time_interval": [
             1691628148,
             1691868105
         ],
-        "personality": " Rosie is a fun-loving and adventurous person who enjoys traveling and exploring new places. She is knowledgeable about different server providers and VPNs, and is willing to share her expertise with Enri. Enri and Rosie have a friendly and casual relationship, with Enri seeking advice from Rosie on their shared interest in traveling in China."
+        "personality": " Rosie is a travel-enthusiast who has been to various places in China, including Dunhuang. She provides recommendations and tips for Enri, who is planning to visit China soon. Rosie is bubbly and enthusiastic about traveling, often using emojis and GIFs in her responses. Enri seems to be excited about the trip but also aware of the crowds during the National Day holiday in October."
+    },
+    {
+        "time_interval": [
+            1691909838,
+            1692230531
+        ],
+        "personality": " Rosie is friendly and willing to help Enri with the VPN issue, offering to share her servers so that Enri doesn't have to go through payment issues. The relationship between Rosie and Enri appears to be informal and playful, with Rosie using terms like \"bb\" (short for \"baby\") and expressing a desire to see Enri soon after they chat."
+    },
+    {
+        "time_interval": [
+            1693291781,
+            1693463149
+        ],
+        "personality": " Rosie has a playful and meme-oriented personality, as evidenced by her responses to Enri's links. Their relationship is friendly and lighthearted, with Rosie engaging in banter and humor with Enri."
+    },
+    {
+        "time_interval": [
+            1693463157,
+            1693478916
+        ],
+        "personality": " Rosie has a strong and sarcastic personality, often using humor to deflect or express frustration. Enri is more lighthearted and relaxed, joking around with Rosie despite their differences."
+    },
+    {
+        "time_interval": [
+            1696380887,
+            1696602645
+        ],
+        "personality": " Rosie is a chatty and playful person who enjoys hacking into WeChat databases and sharing funny content with Enri. They also discuss their preferences for using Python versus other software for data analysis, and Enri mentions that they will attend office hours next week but are feeling unmotivated."
+    },
+    {
+        "time_interval": [
+            1696606069,
+            1696695079
+        ],
+        "personality": " Rosie is a fun-loving and carefree person who encourages Enri to pursue their passion for influencing on the Chinese video-sharing app Bilibili. Despite Enri's initial hesitation, Rosie convinces them to join in on the fun by sharing their WeChat ID and introducing them to other foreigners on the platform."
+    },
+    {
+        "time_interval": [
+            1698079714,
+            1698143991
+        ],
+        "personality": " Rosie is a friendly and enthusiastic person who loves her research group, particularly the Chinese professor. She also shows concern for Enri's gaming injury and offers advice on where to buy cheap flight tickets."
+    },
+    {
+        "time_interval": [
+            1698671025,
+            1698671390
+        ],
+        "personality": " Rosie is a fan of the tattoo artist and wants to get a tattoo from her in Chengdu, but Enri is advising her not to overspend. The two have a playful and lighthearted relationship, with Enri using humor to try to calm Rosie's excitement about getting a tattoo."
+    },
+    {
+        "time_interval": [
+            1699439966,
+            1699441777
+        ],
+        "personality": " Rosie has a negative view of French guys and had a bad experience with one person in particular, who deleted her after she declined his invitation to dinner. She is frustrated that he only has Wednesdays off and won't compromise on their planned meeting time. Enri shares her frustration and reassures her that they are friends and will support her."
     }
 ]

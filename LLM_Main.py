@@ -1,13 +1,14 @@
 import time
 
-from langchain.llms import GPT4All
-# from models.model_cn import ChatGLM
-
-from friend_replica.format_chat import ChatConfig, split_chat_data, format_chat_history
+import streamlit as st
+from friend_replica.format_chat import ChatConfig, format_chat_history, split_chat_data
 from friend_replica.recollection import LanguageModelwithRecollection
 from friend_replica.semantic_search import *
+from langchain.llms import GPT4All
 
-import streamlit as st
+# from models.model_cn import ChatGLM
+
+
 
 ### Side Bar Module ###
 with st.sidebar:
@@ -32,6 +33,11 @@ st.session_state.my_name = col1.text_input('Your Name')
 st.session_state.friend_name = col2.text_input('Frined Name')
 st.session_state.language = col3.selectbox('Select Language',['chinese','english'])
 button = config_form.form_submit_button('Config')
+
+st.session_state.current_chat_replica = []
+st.session_state.current_chat_archieve = []
+st.session_state.continue_chat = False
+st.session_state.current_idx = -1
 
 ### Configuration ###
 def chat_config():

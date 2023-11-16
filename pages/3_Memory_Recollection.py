@@ -1,13 +1,12 @@
 import time
 
-from langchain.llms import GPT4All
-# from models.model_cn import ChatGLM
-
-from friend_replica.format_chat import ChatConfig, split_chat_data, format_chat_history
+import streamlit as st
+from friend_replica.format_chat import ChatConfig, format_chat_history, split_chat_data
 from friend_replica.recollection import LanguageModelwithRecollection
 from friend_replica.semantic_search import *
-
-import streamlit as st
+from langchain.llms import GPT4All
+from model_paths import path_en
+from models.model_cn import ChatGLM
 
 ### Side Bar Module ###
 with st.sidebar:
@@ -25,8 +24,10 @@ st.subheader('Chat History')
 
 
 # Load Memory Recollection Model
-model = GPT4All(model="llama-2-7b-chat.ggmlv3.q4_0.bin", allow_download=True)
-# model = ChatGLM()
+if st.session_state.language == 'chinese':
+    model = ChatGLM()
+else: 
+    model = GPT4All(model=path_en)
 m = LanguageModelwithRecollection(model, st.session_state.chat_with_friend, debug=True)
 
 # %%
@@ -46,6 +47,6 @@ st.text('\n'.join(format_chat_history(st.session_state.chat_blocks[0],
 st.subheader('Chat Summarization')
 
 def summarize_memory():
-    m.summarize_memory(st.session_state.chat_blocks[1])
+    return m.summarize_memory(st.session_state.chat_blocks[0])
 
-st.write()
+st.text(summarize_memory())
