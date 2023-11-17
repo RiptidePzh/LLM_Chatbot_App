@@ -157,6 +157,6 @@ while q:
 
 ### Prerequisites
 
-`BigDL` library for Intel chip devices, tested for the Chinese language model `chatglm2-6b`, and the English language model `llama-2-chat-7b`
+`BigDL` library for Intel chip devices, tested for the Chinese model `chatglm2-6b`, and English model `llama-2-chat-7b`   
 `GPT4ALL` for other devices, tested for the English language model `llama-2-chat-7b`
 
